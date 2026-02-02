@@ -5,7 +5,7 @@ import {LoginResponse, User} from './auth.model';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  private api = 'http://localhost:8000/api';
+  private api = 'http://localhost:8000/api/auth';
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
 
