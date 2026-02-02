@@ -1,0 +1,64 @@
+# --------------------------------------------------------------------------
+# MONOREPO COMBINED (Angular + Laravel)
+# --------------------------------------------------------------------------
+
+# --- COMMON & SYSTEM ---
+**/node_modules/
+**/vendor/
+.DS_Store
+Thumbs.db
+.history/
+*.log
+npm-debug.log
+yarn-error.log
+
+# --- ANGULAR SPECIFIC ---
+**/dist/
+**/tmp/
+**/out-tsc/
+**/bazel-out/
+**/.angular/cache/
+**/.sass-cache/
+**/connect.lock
+**/coverage/
+**/libpeerconnection.log
+testem.log
+**/typings/
+**/__screenshots__/
+
+# --- LARAVEL SPECIFIC ---
+**/.env
+**/.env.backup
+**/.env.production
+**/.phpactor.json
+**/.phpunit.result.cache
+**/.phpunit.cache/
+**/auth.json
+**/public/build/
+**/public/hot/
+**/public/storage/
+**/public/petitions/
+**/storage/*.key
+**/storage/pail/
+Homestead.json
+Homestead.yaml
+
+# --- IDES & EDITORS ---
+# Bloqueamos carpetas de editores en cualquier nivel
+**/.idea/
+**/.vscode/
+**/.fleet/
+**/.nova/
+**/.zed/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Excepciones para VS Code (si quieres compartir config de equipo)
+!**/.vscode/settings.json
+!**/.vscode/tasks.json
+!**/.vscode/launch.json
+!**/.vscode/extensions.json
