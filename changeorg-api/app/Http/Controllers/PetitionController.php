@@ -14,13 +14,40 @@ use Illuminate\Support\Facades\Validator;
 
 class PetitionController extends Controller
 {
+    // Método auxiliar para estandarizar respuestas de éxito
+    private function sendResponse($data, $message, $code = 200)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'message' => $message
+        ], $code);
+    }
+
+    // Método auxiliar para estandarizar respuestas de error
+    private function sendError($error, $errorMessages = [], $code = 404)
+    {
+        $response = [
+            'success' => false,
+            'message' => $error,
+        ];
+        if (!empty($errorMessages)) {
+            $response['errors'] = $errorMessages;
+        }
+        return response()->json($response, $code);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $petitions = Petition::all();
-        return response()->json(['data' => $petitions], 200);
+        try {
+            $petitions = Petition::all();
+            return $this->sendResponse($petitions, 'Peticiones recuperadas con éxito.');
+        } catch (\Exception $e) {
+            return $this->sendError('Error al recuperar peticiones', $e->getMessage(), 500);
+        }
     }
 
     /**
@@ -37,15 +64,11 @@ class PetitionController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors()
-            ], 422);
+            return $this->sendError('Error de validación', $validator->errors(), 422);
         }
 
-        $input = $request->all();
-
         try {
+            $input = $request->all();
             $category = Category::findOrFail($input['category_id']);
             $user = Auth::user();
             $petition = new Petition($input);
@@ -60,22 +83,27 @@ class PetitionController extends Controller
             if ($res) {
                 $res_file = $this->fileUpload($request, $petition->id);
                 if ($res_file) {
-                    return response()->json(['data' => $petition, 'message' => 'Petición creada correctamente.'], 200);
+                    return $this->sendResponse($petition, 'Petición creada con éxito', 201);
                 } else {
-                    return response()->json(['status' => 'error', 'message' => 'No se ha podido crear la petición.'], 500);
+                    return $this->sendError('Error al crear la petición', 500);
                 }
             }
         } catch (\Exception $exception) {
-            return response()->json(['status' => 'error', 'message' => 'No se ha podido crear la petición.'], 500);
+            return $this->sendError('Error al crear la petición', 500, $exception->getMessage());
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Petition $petition)
+    public function show($id)
     {
-        return response()->json(['data' => $petition], 200);
+        try {
+            $petition = Petition::findOrFail($id);
+            return $this->sendResponse($petition, 'Petición encontrada');
+        } catch (\Exception $e) {
+            return $this->sendError('Petición no encontrada');
+        }
     }
 
     /**
@@ -92,10 +120,7 @@ class PetitionController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors()
-            ], 422);
+            return $this->sendError('Error de validación', $validator->errors(), 422);
         }
 
         $input = $request->except('file');
@@ -111,17 +136,17 @@ class PetitionController extends Controller
 
                 $this->fileUpload($request, $petition->id);
             }
-
-            return response()->json(['data' => $petition, 'message' => 'Petición actualizada correctamente.'], 200);
-        } catch (\Exception) {
-            return response()->json(['status' => 'error', 'message' => 'No se ha podido actualizar la petición.'], 500);
+            return $this->sendResponse($petition, 'Petición actualizada con éxito');
+        } catch (\Exception $e) {
+            return $this->sendError('Error al actualizar', $e->getMessage(), 500);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Petition $petition) {
+    public function delete(Petition $petition)
+    {
         try {
             $file = File::where('petition_id', $petition->id)->first();
 
@@ -136,9 +161,9 @@ class PetitionController extends Controller
             $petition->signers()->detach();
             $petition->delete();
 
-            return response()->json(['data' => null, 'message' => 'Petición eliminada correctamente.'], 200);
-        } catch (\Exception) {
-            return response()->json(['status' => 'error', 'message' => 'No se ha podido borrar la petición.'], 500);
+            return $this->sendResponse(null, 'Petición eliminada con éxito');
+        } catch (\Exception $e) {
+            return $this->sendError('Error al eliminar la petición', $e->getMessage(), 500);
         }
     }
 
@@ -147,39 +172,46 @@ class PetitionController extends Controller
         try {
             $user = Auth::user();
             $petitions = $user->petitions;
-            return response()->json(['data' => $petitions], 200);
-        } catch (\Exception $exception) {
-            return response()->json(['status' => 'error', 'message' => 'No se han podido mostrar tus peticiones.'], 500);
+            return $this->sendResponse($petitions, 'Tus peticiones han sido recuperadas con éxito.');
+        } catch (\Exception $e) {
+            return $this->sendError('Error al recuperar tus peticiones', $e->getMessage(), 500);
         }
     }
 
-    public function sign(Request $request, Petition $petition) {
+    public function sign(Request $request, Petition $petition)
+    {
         try {
             $user = Auth::user();
             $signers = $petition->signers()->get();
             foreach ($signers as $signer) {
                 if ($signer->id == $user->id) {
-                    return response()->json(['status' => 'error', 'message' => 'Ya has firmado esta petición.'], 400);
+                    return $this->sendError('Ya has firmado esta petición.', [], 400);
                 }
             }
             $user_id = [$user->id];
             $petition->signers()->attach($user_id);
             $petition->signers = $petition->signers + 1;
             $petition->save();
-            return response()->json(['data' => null, 'message' => 'Petición firmada con éxito.'], 200);
+            return $this->sendResponse($petition, 'Petición firmada con éxito', 201);
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => 'No se ha podido firmar esta petición.'], 500);
+            return $this->sendError('No se pudo firmar la petición', $e->getMessage(), 500);
         }
     }
 
-    public function signedPetitions(Request $request) {
-        $id = Auth::id();
-        $user = User::findOrFail($id);
-        $petitions = $user->signedPetitions;
-        return response()->json(['data' => $petitions], 200);
+    public function signedPetitions(Request $request)
+    {
+        try {
+            $id = Auth::id();
+            $user = User::findOrFail($id);
+            $petitions = $user->signedPetitions;
+            return $this->sendResponse($petitions, 'Peticiones firmadas recuperadas con éxito');
+        } catch (\Exception $exception) {
+            return  $this->sendError('No se pudieron recuperar tus peticiones firmadas.', $exception->getMessage(), 500);
+        }
     }
 
-    public function changeStatus(Petition $petition) {
+    public function changeStatus(Petition $petition)
+    {
         if ($petition->status == 'accepted') {
             $petition->status = 'pending';
         } else {
@@ -187,10 +219,10 @@ class PetitionController extends Controller
         }
         try {
             $petition->save();
-        } catch (\Exception ) {
-            return response()->json(['data' => null, 'message' => 'Error actualizando el estado de la petición'], 500);
+        } catch (\Exception $exception) {
+            return $this->sendError('Error actualizando el estado de la petición', $exception->getMessage(), 500);
         }
-        return response()->json(['data' => $petition, 'message' => 'Estado de la petición cambiado con éxito.'], 201);
+        return $this->sendResponse($petition, 'Estado de la petición cambiado con éxito.', 201);
     }
 
     public function fileUpload(Request $req, $petition_id = null)
@@ -213,8 +245,13 @@ class PetitionController extends Controller
         }
     }
 
-    public function getImage(Petition $petition) {
-        $files = $petition->files;
-        return response()->json(['data' => $files]);
+    public function getImage(Petition $petition)
+    {
+        try {
+            $files = $petition->files;
+            return $this->sendResponse($files, 'Imagen recuperada con éxito.');
+        } catch (\Exception $exception) {
+            return $this->sendError('Error recuperando la imagen.', $exception->getMessage(), 500);
+        }
     }
 }
