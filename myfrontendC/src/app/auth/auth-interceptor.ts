@@ -1,4 +1,4 @@
-import {HttpInterceptorFn, HttpErrorResponse} from '@angular/common/http';
+import {HttpInterceptorFn, HttpErrorResponse} from '@angular/common/http'
 import {inject} from '@angular/core';
 import {AuthService} from './auth.service';
 import {catchError, switchMap, throwError, of} from 'rxjs'; // 👈 Añadimos 'of'
@@ -13,7 +13,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
       // CASO 1: Bucle infinito o ruta prohibida
-      if (req.url.includes('/refresh') || req.url.includes('/login')) {
+      if (req.url.includes('/refresh')) {
         // En lugar de subscribe(), encadenamos el logout
         return auth.logout().pipe(
           // Si el logout falla (ej. servidor caído), no nos importa,
