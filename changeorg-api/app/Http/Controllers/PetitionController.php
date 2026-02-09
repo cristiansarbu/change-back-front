@@ -67,6 +67,8 @@ class PetitionController extends Controller
             return $this->sendError('Error de validación', $validator->errors(), 422);
         }
 
+//        $path = $file->store('petitions', 'public');
+
         try {
             $input = $request->all();
             $category = Category::findOrFail($input['category_id']);
