@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PetitionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +35,8 @@ Route::middleware('auth:api')->group(function () {
 Route::controller(PetitionController::class)->group(function () {
     Route::get('petitions', 'index');
     Route::get('petitions/{petition}', 'show');
-    Route::get('petitions/{petition}/files', 'getImage');
+});
+
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('categories', 'index');
 });

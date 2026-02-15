@@ -1,0 +1,48 @@
+.fs-2rem {
+  font-size: 2rem;
+}
+
+.fs-1125rem {
+  font-size: 1.125rem;
+}
+
+.contenedor-todo {
+  max-width: 600px;
+  width: 100%;
+}
+
+.icono {
+  height: 32px !important;
+  width: 32px !important;
+  color: #bdb7c9;
+}
+
+.p-custom {
+  padding: 40px !important;
+}
+
+.card-alcance {
+  height: 159px !important;
+}
+
+.card-alcance:hover {
+  border: 1px solid #feca03 !important;
+}
+.card-alcance:hover .icono {
+  color: #feca03;
+}
+
+.button-create-petition {
+  background-color: #f8e74a;
+  border: 1px solid;
+  border-color: #ffdb00;
+  border-radius: 6px;
+}
+
+.button-create-petition:hover {
+  background-color: #ffed4b !important;
+  border-color: #ffdb00;
+  border-radius: 6px;
+}
+
+/*# sourceMappingURL=create-petition.css.map */

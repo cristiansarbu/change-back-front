@@ -1,0 +1,108 @@
+<main class="container d-flex justify-content-center mt-3">
+  <div class="p-4 p-md-5 contenedor-todo">
+
+    <h1 class="fw-bold fs-3 mb-2 fs-2rem">Editar tu petición</h1>
+    <p class="text-body mb-4 fs-1125rem">
+      Completa la información siguiente para que podamos editar tu petición.
+    </p>
+
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="title" class="form-label fw-bold">Título de la petición *</label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          class="form-control"
+          placeholder="Ejemplo: Queremos que el gobierno mejore la atención sanitaria."
+          [class.is-invalid]="itemForm.get('title')?.invalid && itemForm.get('title')?.touched"
+        >
+        <small class="text-muted">Debe ser breve, claro y directo. Máximo 255 caracteres.</small>
+        <div class="invalid-feedback">El título es obligatorio.</div>
+      </div>
+
+      <div class="mb-4">
+        <label for="description" class="form-label fw-bold">Descripción detallada *</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="5"
+          class="form-control"
+          placeholder="Explica claramente por qué esta petición es importante y qué cambio deseas lograr."
+          [class.is-invalid]="itemForm.get('description')?.invalid && itemForm.get('description')?.touched"
+        ></textarea>
+        <div class="invalid-feedback">La descripción es obligatoria.</div>
+      </div>
+
+      <div class="mb-4">
+        <label for="destinatary" class="form-label fw-bold">¿A quién va dirigida la petición? *</label>
+        <input
+          type="text"
+          id="destinatary"
+          formControlName="destinatary"
+          class="form-control"
+          placeholder="Ejemplo: Ministro de Educación, Ayuntamiento de Madrid, etc."
+          [class.is-invalid]="itemForm.get('destinatary')?.invalid && itemForm.get('destinatary')?.touched"
+        >
+        <small class="text-muted">Indica la persona, institución u organización que puede realizar el cambio.</small>
+        <div class="invalid-feedback">El destinatario es obligatorio.</div>
+      </div>
+
+      <div class="mb-4">
+        <label for="category_id" class="form-label fw-bold">Categoría de la petición *</label>
+        <select
+          id="category_id"
+          class="form-select"
+          formControlName="category_id"
+          [class.is-invalid]="itemForm.get('category_id')?.invalid && itemForm.get('category_id')?.touched"
+        >
+          <option value="">Selecciona una categoría</option>
+
+          @for (category of categories; track category.id) {
+            <option [value]="category.id">{{ category.name }}</option>
+          }
+        </select>
+
+        <small class="text-muted">Elige una categoría que describa tu petición.</small>
+        <div class="invalid-feedback">La categoría es obligatoria.</div>
+      </div>
+
+      <div class="mb-4">
+        <label for="file" class="form-label fw-bold">Imagen o archivo relacionado *</label>
+        <input
+          type="file"
+          id="file"
+          class="form-control"
+          accept=".jpg,.jpeg,.png,.svg"
+          (change)="onFileSelected($event)"
+        >
+        <small class="text-muted">Formatos permitidos: JPG, JPEG, PNG, SVG.</small>
+
+        @if (fileError()) {
+          <div class="text-danger small mt-1">{{ fileError() }}</div>
+        }
+      </div>
+
+      <div class="d-flex justify-content-end gap-3 mt-4">
+        <button
+          type="button"
+          (click)="goBack()"
+          class="btn btn-outline-secondary fw-bold px-4 py-2"
+        >
+          Volver
+        </button>
+
+        <button
+          type="submit"
+          class="button-create-petition px-4 py-2 fw-bold"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          }
+          Crear petición
+        </button>
+      </div>
+    </form>
+  </div>
+</main>

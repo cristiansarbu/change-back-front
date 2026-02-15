@@ -10,6 +10,7 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PetitionController extends Controller
@@ -43,7 +44,7 @@ class PetitionController extends Controller
     public function index()
     {
         try {
-            $petitions = Petition::all();
+            $petitions = Petition::with(['files', 'user'])->get();
             return $this->sendResponse($petitions, 'Peticiones recuperadas con éxito.');
         } catch (\Exception $e) {
             return $this->sendError('Error al recuperar peticiones', $e->getMessage(), 500);
@@ -59,9 +60,15 @@ class PetitionController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'destinatary' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'file' => 'required|file|mimes:jpeg,png,jpg,svg'
-        ]);
+        ],
+            [
+                'category_id.exists' => 'La categoría seleccionada no existe.'
+            ],
+            [
+                'category_id' => 'categoría'
+            ]);
 
         if ($validator->fails()) {
             return $this->sendError('Error de validación', $validator->errors(), 422);
@@ -85,6 +92,7 @@ class PetitionController extends Controller
             if ($res) {
                 $res_file = $this->fileUpload($request, $petition->id);
                 if ($res_file) {
+                    $petition->load(['files', 'user']);
                     return $this->sendResponse($petition, 'Petición creada con éxito', 201);
                 } else {
                     return $this->sendError('Error al crear la petición', 500);
@@ -101,7 +109,7 @@ class PetitionController extends Controller
     public function show($id)
     {
         try {
-            $petition = Petition::findOrFail($id);
+            $petition = Petition::with(['files', 'user'])->findOrFail($id);
             return $this->sendResponse($petition, 'Petición encontrada');
         } catch (\Exception $e) {
             return $this->sendError('Petición no encontrada');
@@ -117,9 +125,15 @@ class PetitionController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'destinatary' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'file' => 'file|mimes:jpeg,png,jpg,svg'
-        ]);
+        ],
+            [
+                'category_id.exists' => 'La categoría seleccionada no existe.'
+            ],
+            [
+                'category_id' => 'categoría'
+            ]);
 
         if ($validator->fails()) {
             return $this->sendError('Error de validación', $validator->errors(), 422);
@@ -132,12 +146,12 @@ class PetitionController extends Controller
 
             if ($request->hasFile('file')) {
                 $fileExistente = File::where('petition_id', $petition->id)->first();
-                $fileExistentePath = public_path('petitions/' . $fileExistente->file_path);
-                unlink($fileExistentePath);
+                Storage::disk('public')->delete('petitions/' . $fileExistente->file_path);
                 $fileExistente->delete();
 
                 $this->fileUpload($request, $petition->id);
             }
+            $petition->load(['files', 'user']);
             return $this->sendResponse($petition, 'Petición actualizada con éxito');
         } catch (\Exception $e) {
             return $this->sendError('Error al actualizar', $e->getMessage(), 500);
@@ -153,10 +167,7 @@ class PetitionController extends Controller
             $file = File::where('petition_id', $petition->id)->first();
 
             if ($file) {
-                $filePath = public_path('petitions/' . $file->file_path);
-                if (file_exists($filePath)) {
-                    unlink($filePath);
-                }
+                Storage::disk('public')->delete('petitions/' . $file->file_path);
                 $file->delete();
             }
 
@@ -173,7 +184,7 @@ class PetitionController extends Controller
     {
         try {
             $user = Auth::user();
-            $petitions = $user->petitions;
+            $petitions = $user->petitions()->with(['files', 'user'])->get();
             return $this->sendResponse($petitions, 'Tus peticiones han sido recuperadas con éxito.');
         } catch (\Exception $e) {
             return $this->sendError('Error al recuperar tus peticiones', $e->getMessage(), 500);
@@ -194,7 +205,8 @@ class PetitionController extends Controller
             $petition->signers()->attach($user_id);
             $petition->signers = $petition->signers + 1;
             $petition->save();
-            return $this->sendResponse($petition, 'Petición firmada con éxito', 201);
+            $petition->load(['files', 'user']);
+            return $this->sendResponse($petition, 'Petición firmada con éxito');
         } catch (\Exception $e) {
             return $this->sendError('No se pudo firmar la petición', $e->getMessage(), 500);
         }
@@ -205,10 +217,10 @@ class PetitionController extends Controller
         try {
             $id = Auth::id();
             $user = User::findOrFail($id);
-            $petitions = $user->signedPetitions;
+            $petitions = $user->signedPetitions()->with(['files', 'user'])->get();
             return $this->sendResponse($petitions, 'Peticiones firmadas recuperadas con éxito');
         } catch (\Exception $exception) {
-            return  $this->sendError('No se pudieron recuperar tus peticiones firmadas.', $exception->getMessage(), 500);
+            return $this->sendError('No se pudieron recuperar tus peticiones firmadas.', $exception->getMessage(), 500);
         }
     }
 
@@ -224,6 +236,7 @@ class PetitionController extends Controller
         } catch (\Exception $exception) {
             return $this->sendError('Error actualizando el estado de la petición', $exception->getMessage(), 500);
         }
+        $petition->load(['files', 'user']);
         return $this->sendResponse($petition, 'Estado de la petición cambiado con éxito.', 201);
     }
 
@@ -237,23 +250,13 @@ class PetitionController extends Controller
             $fileModel->petition_id = $petition_id;
             if ($req->file('file')) {
                 $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move('petitions', $filename);
+                $path = $file->storeAs('petitions', $filename, 'public');
                 $fileModel->name = $filename;
                 $fileModel->file_path = $filename;
                 $res = $fileModel->save();
                 return $fileModel;
             }
             return 1;
-        }
-    }
-
-    public function getImage(Petition $petition)
-    {
-        try {
-            $files = $petition->files;
-            return $this->sendResponse($files, 'Imagen recuperada con éxito.');
-        } catch (\Exception $exception) {
-            return $this->sendError('Error recuperando la imagen.', $exception->getMessage(), 500);
         }
     }
 }

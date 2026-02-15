@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+  <div class="col-lg-10 col-xl-8">
+
+    <div class="card shadow-sm mb-4 mt-5">
+      <div class="card-body p-4 p-md-5">
+        @if (user$ | async; as user) {
+          <header class="mb-4">
+            <h2 class="h5 text-dark">Información del perfil</h2>
+            <p class="mt-1 text-muted small">Bienvenido/a, {{ user.name }}.</p>
+          </header>
+
+          <div class="mb-3">
+            <div class="text-muted small">Nombre</div>
+            <div class="text-dark fw-semibold">{{ user.name }}</div>
+          </div>
+
+          <div class="mb-0">
+            <div class="text-muted small">Correo electrónico</div>
+            <div class="text-dark fw-semibold">{{ user.email }}</div>
+          </div>
+        } @else {
+          <p class="text-muted mb-0">Cargando perfil…</p>
+        }
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-4 p-md-5">
+        <header class="mb-4">
+          <h2 class="h5 text-dark">Sesión</h2>
+          <p class="mt-1 text-muted small">Gestiona tu sesión actual.</p>
+        </header>
+
+        <button type="button" class="btn btn-outline-danger" (click)="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+
+  </div>
+</div>

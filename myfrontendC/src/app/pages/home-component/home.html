@@ -1,0 +1,469 @@
+<main>
+  <div class="container-fluid main-container py-4 d-flex flex-column align-items-center">
+    <!-- Main Movil -->
+    <div class="container-fluid top-container d-flex flex-column text-center gap-3 d-lg-none">
+      <h1 class="fw-bold">El cambio comienza aquí<span class="text-danger">.</span></h1>
+      <h3 class="fw-light">Únete a <span class="fw-bold">567.390.099</span> personas que están impulsando un
+        cambio real en sus
+        comunidades.</h3>
+      @if (isLoggedIn()) {
+        <a [routerLink]="['/petitions/create']" class="btn button-create-petition py-3 fw-bold">Crear una petición</a>
+      } @else {
+        <a [routerLink]="['/login']" class="btn button-create-petition py-3 fw-bold">Crear una petición</a>
+      }
+    </div>
+
+    <!-- Carousel Móvil -->
+    <div id="carouselExampleCaptions" class="carousel slide mt-5 d-lg-none">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+                aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
+                aria-label="Slide 5"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="/assets/img/landing/circ1.jpg" class="d-block mx-auto" alt="...">
+          <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
+            <div class="contenedor-victoria px-5 py-2">
+              <div class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                <div class="punto-naranja"></div>
+                <h4 class="text-white">¡Victoria!</h4>
+              </div>
+              <h5 class="text-white">96.240 firmas</h5>
+            </div>
+            <p class="mt-2">Logra que financien la medicación para cáncer de mama metastásico</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="/assets/img/landing/circ2.jpg" class="d-block mx-auto" alt="...">
+          <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
+            <div class="contenedor-victoria px-5 py-2">
+              <div class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                <div class="punto-naranja"></div>
+                <h4 class="text-white">¡Victoria!</h4>
+              </div>
+              <h5 class="text-white">96.240 firmas</h5>
+            </div>
+            <p class="mt-2">Consigue que no separen a sus padres con Alzheimer: llevan más de 60 años
+              juntos</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="/assets/img/landing/circ3.jpg" class="d-block mx-auto" alt="...">
+          <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
+            <div class="contenedor-victoria px-5 py-2">
+              <div class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                <div class="punto-naranja"></div>
+                <h4 class="text-white">¡Victoria!</h4>
+              </div>
+              <h5 class="text-white">96.240 firmas</h5>
+            </div>
+            <p class="mt-2">Su hija tiene Anorexia y logra que abran en el País Vasco una Unidad de
+              Trastornos de...</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="/assets/img/landing/circ4.jpg" class="d-block mx-auto" alt="...">
+          <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
+            <div class="contenedor-victoria px-5 py-2">
+              <div class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                <div class="punto-naranja"></div>
+                <h4 class="text-white">¡Victoria!</h4>
+              </div>
+              <h5 class="text-white">96.240 firmas</h5>
+            </div>
+            <p class="mt-2">No podemos más. Stop guardias médicas de 24 horas - Consigue el compromiso
+              de...</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="/assets/img/landing/circ5.jpg" class="d-block mx-auto" alt="...">
+          <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
+            <div class="contenedor-victoria px-5 py-2">
+              <div class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                <div class="punto-naranja"></div>
+                <h4 class="text-white">¡Victoria!</h4>
+              </div>
+              <h5 class="text-white">96.240 firmas</h5>
+            </div>
+            <p class="mt-2">Familiares de víctimas de la DANA logran comisión de investigación</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="prev">
+        <svg class="carousel-control-prev-icon h-6 w-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+             fill="currentColor" aria-hidden="true" focusable="false"
+             style="fill:currentColor">
+          <g>
+            <path
+              d="M19.0005 11H7.83047L12.7105 6.11997C13.1005 5.72997 13.1005 5.08997 12.7105 4.69997C12.3205 4.30997 11.6905 4.30997 11.3005 4.69997L4.71047 11.29C4.32047 11.68 4.32047 12.31 4.71047 12.7L11.3005 19.29C11.6905 19.68 12.3205 19.68 12.7105 19.29C13.1005 18.9 13.1005 18.27 12.7105 17.88L7.83047 13H19.0005C19.5505 13 20.0005 12.55 20.0005 12C20.0005 11.45 19.5505 11 19.0005 11Z">
+            </path>
+          </g>
+        </svg>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="next">
+        <svg class="carousel-control-next-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+             fill="currentColor" aria-hidden="true" focusable="false" style="fill:currentColor">
+          <g>
+            <path
+              d="M5 13H16.17L11.29 17.88C10.9 18.27 10.9 18.91 11.29 19.3C11.68 19.69 12.31 19.69 12.7 19.3L19.29 12.71C19.68 12.32 19.68 11.69 19.29 11.3L12.71 4.69997C12.32 4.30997 11.69 4.30997 11.3 4.69997C10.91 5.08997 10.91 5.71997 11.3 6.10997L16.17 11H5C4.45 11 4 11.45 4 12C4 12.55 4.45 13 5 13Z">
+            </path>
+          </g>
+        </svg>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <div class="container d-none d-lg-flex justify-content-center min-vh-100">
+
+      <div class="container position-relative py-5">
+        <div class="row justify-content-between">
+          <div class="col-auto d-flex flex-column align-items-center">
+            <div class="circulo-img w-auto d-flex flex-column align-items-center abs-top-izq">
+              <img src="/assets/img/landing/circ1.jpg" class="d-block" alt="...">
+              <div
+                class="circulo-caption d-flex flex-column justify-content-center align-items-center">
+                <div class="contenedor-victoria-desktop px-5 py-2">
+                  <div
+                    class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                    <div class="punto-naranja"></div>
+                    <h4 class="text-body">¡Victoria!</h4>
+                  </div>
+                  <h5 class="text-body fw-light">157.929 firmas</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-auto d-flex flex-column align-items-center">
+            <div class="circulo-img w-auto d-flex flex-column align-items-center abs-top-der">
+              <img src="/assets/img/landing/circ5.jpg" class="d-block" alt="...">
+              <div
+                class="circulo-caption d-flex flex-column justify-content-center align-items-center">
+                <div class="contenedor-victoria-desktop px-5 py-2">
+                  <div
+                    class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                    <div class="punto-naranja"></div>
+                    <h4 class="text-body">¡Victoria!</h4>
+                  </div>
+                  <h5 class="text-body fw-light">162.845 firmas</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center my-5">
+          <div class="col-6 text-center mx-auto abs-centro">
+            <div class="d-flex flex-column text-center gap-3">
+              <h1 class="fw-bold fs-5rem fs-cambio-responsive">El cambio comienza aquí<span
+                class="text-danger">.</span>
+              </h1>
+              <h3 class="fw-light fs-2rem fs-unete-responsive">Únete a <span
+                class="fw-bold">567.390.099</span> personas
+                que están
+                impulsando un
+                cambio real en sus
+                comunidades.</h3>
+              <div class="d-flex justify-content-center align-items-center gap-3">
+                @if (isLoggedIn()) {
+                  <a [routerLink]="['/petitions/create']"
+                     class="btn button-create-petition py-3 fw-bold btn-responsive">Crear una
+                    petición</a>
+                } @else {
+                  <a [routerLink]="['/login']"
+                     class="btn button-create-petition py-3 fw-bold btn-responsive">Crear una
+                    petición</a>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-between">
+          <div class="col-auto d-flex flex-column align-items-center">
+            <div class="col-auto d-flex flex-column align-items-center">
+              <div class="circulo-img w-auto d-flex flex-column align-items-center abs-abajo-izq">
+                <img src="/assets/img/landing/circ2.jpg" class="d-block" alt="...">
+                <div
+                  class="circulo-caption d-flex flex-column justify-content-center align-items-center">
+                  <div class="contenedor-victoria-desktop px-5 py-2">
+                    <div
+                      class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                      <div class="punto-naranja"></div>
+                      <h4 class="text-body">¡Victoria!</h4>
+                    </div>
+                    <h5 class="text-body fw-light">96.240 firmas</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto d-flex flex-column align-items-center">
+            <div class="col-auto d-flex flex-column align-items-center">
+              <div class="circulo-img w-auto d-flex flex-column align-items-center abs-abajo-centro">
+                <img src="/assets/img/landing/circ3.jpg" class="d-block" alt="...">
+                <div
+                  class="circulo-caption d-flex flex-column justify-content-center align-items-center">
+                  <div class="contenedor-victoria-desktop px-5 py-2">
+                    <div
+                      class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                      <div class="punto-naranja"></div>
+                      <h4 class="text-body">¡Victoria!</h4>
+                    </div>
+                    <h5 class="text-body fw-light">141.336 firmas</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto d-flex flex-column align-items-center">
+            <div class="col-auto d-flex flex-column align-items-center">
+              <div class="circulo-img w-auto d-flex flex-column align-items-center abs-abajo-der">
+                <img src="/assets/img/landing/circ4.jpg" class="d-block" alt="...">
+                <div
+                  class="circulo-caption d-flex flex-column justify-content-center align-items-center">
+                  <div class="contenedor-victoria-desktop px-5 py-2">
+                    <div
+                      class="contenedor-arriba d-flex justify-content-center gap-1 align-items-baseline">
+                      <div class="punto-naranja"></div>
+                      <h4 class="text-body">En tendencia</h4>
+                    </div>
+                    <h5 class="text-body fw-light">192.214 firmas</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+
+
+
+<section
+  class="container-fluid py-5 bg-gris-plataforma d-flex flex-column text-center gap-3 align-items-lg-center mb-5">
+  <div class="titulo-seccion mb-2">
+    <h3 class="text-body fw-bold">Usar la plataforma de peticiones n.º1 del mundo es fácil</h3>
+  </div>
+
+  <div class="d-flex flex-column flex-lg-row justify-content-lg-center align-items-lg-center gap-5">
+
+    <div class="contenido-seccion d-flex justify-content-lg-center flex-1">
+      <div
+        class="grupo-paso d-flex justify-content-start gap-3 flex-lg-column align-items-lg-center justify-content-lg-center">
+        <div class="paso-azul">
+          <h5 class="m-0 p-0">1</h5>
+        </div>
+        <div class="contenido">
+          <h5 class="text-body fw-bold fs-1rem text-start text-lg-center">Crea una petición en dos minutos
+          </h5>
+          <h5 class="text-body fw-light fs-1rem text-start text-lg-center">Más de 2.000 nuevas cada día
+          </h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="contenido-seccion d-flex justify-content-lg-center flex-1">
+      <div
+        class="grupo-paso d-flex justify-content-start gap-3 flex-lg-column align-items-lg-center justify-content-lg-center">
+        <div class="paso-azul">
+          <h5 class="m-0 p-0">2</h5>
+        </div>
+        <div class="contenido">
+          <h5 class="text-body fw-bold fs-1rem text-start text-lg-center">Consigue apoyo gracias a nuestra
+            gran comunidad
+          </h5>
+          <h5 class="text-body fw-light fs-1rem text-start text-lg-center">Más de 500.000 firmas diarias
+          </h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="contenido-seccion d-flex justify-content-lg-center flex-1">
+      <div
+        class="grupo-paso d-flex justify-content-start gap-3 flex-lg-column align-items-lg-center justify-content-lg-center">
+        <div class="paso-azul">
+          <h5 class="m-0 p-0">3</h5>
+        </div>
+        <div class="contenido">
+          <h5 class="text-body fw-bold fs-1rem text-start text-lg-center">Llega hasta los responsables
+            gracias a nuestra
+            red</h5>
+          <h5 class="text-body fw-light fs-1rem text-start text-lg-center">Más de 1.000 notificados a
+            diario</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <a href="" class="text-decoration-none">Lee nuestros consejos y guías sobre cómo
+      crear una petición</a>
+  </div>
+</section>
+
+
+<section class="container d-flex flex-column mb-5">
+  <h3 class="fw-bold mb-4">Apoya causas que te importan</h3>
+  <h5 class="fw-light fs-1125 mb-4">Encuentra peticiones que te conmuevan y alza tu voz para lograr el cambio.
+  </h5>
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+
+    <button type="button" class="btn-categoria d-flex align-items-center gap-2">Sanidad <svg viewBox="0 0 24 24"
+                                                                                             class="icono-categoria" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false" style="fill:currentColor">
+      <g>
+        <path
+          d="M5 13H16.17L11.29 17.88C10.9 18.27 10.9 18.91 11.29 19.3C11.68 19.69 12.31 19.69 12.7 19.3L19.29 12.71C19.68 12.32 19.68 11.69 19.29 11.3L12.71 4.69997C12.32 4.30997 11.69 4.30997 11.3 4.69997C10.91 5.08997 10.91 5.71997 11.3 6.10997L16.17 11H5C4.45 11 4 11.45 4 12C4 12.55 4.45 13 5 13Z">
+        </path>
+      </g>
+    </svg></button>
+
+    <button type="button" class="btn-categoria d-flex align-items-center gap-2">Animales <svg
+      viewBox="0 0 24 24" class="icono-categoria" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+      aria-hidden="true" focusable="false" style="fill:currentColor">
+      <g>
+        <path
+          d="M5 13H16.17L11.29 17.88C10.9 18.27 10.9 18.91 11.29 19.3C11.68 19.69 12.31 19.69 12.7 19.3L19.29 12.71C19.68 12.32 19.68 11.69 19.29 11.3L12.71 4.69997C12.32 4.30997 11.69 4.30997 11.3 4.69997C10.91 5.08997 10.91 5.71997 11.3 6.10997L16.17 11H5C4.45 11 4 11.45 4 12C4 12.55 4.45 13 5 13Z">
+        </path>
+      </g>
+    </svg>
+    </button>
+
+    <button type="button" class="btn-categoria d-flex align-items-center gap-2">Medio Ambiente <svg
+      viewBox="0 0 24 24" class="icono-categoria" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+      aria-hidden="true" focusable="false" style="fill:currentColor">
+      <g>
+        <path
+          d="M5 13H16.17L11.29 17.88C10.9 18.27 10.9 18.91 11.29 19.3C11.68 19.69 12.31 19.69 12.7 19.3L19.29 12.71C19.68 12.32 19.68 11.69 19.29 11.3L12.71 4.69997C12.32 4.30997 11.69 4.30997 11.3 4.69997C10.91 5.08997 10.91 5.71997 11.3 6.10997L16.17 11H5C4.45 11 4 11.45 4 12C4 12.55 4.45 13 5 13Z">
+        </path>
+      </g>
+    </svg>
+    </button>
+
+    <button type="button" class="btn-categoria d-flex align-items-center gap-2">Educación <svg
+      viewBox="0 0 24 24" class="icono-categoria" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+      aria-hidden="true" focusable="false" style="fill:currentColor">
+      <g>
+        <path
+          d="M5 13H16.17L11.29 17.88C10.9 18.27 10.9 18.91 11.29 19.3C11.68 19.69 12.31 19.69 12.7 19.3L19.29 12.71C19.68 12.32 19.68 11.69 19.29 11.3L12.71 4.69997C12.32 4.30997 11.69 4.30997 11.3 4.69997C10.91 5.08997 10.91 5.71997 11.3 6.10997L16.17 11H5C4.45 11 4 11.45 4 12C4 12.55 4.45 13 5 13Z">
+        </path>
+      </g>
+    </svg>
+    </button>
+
+    <button type="button" class="btn-categoria d-flex align-items-center gap-2">Justicia Economica <svg
+      viewBox="0 0 24 24" class="icono-categoria" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+      aria-hidden="true" focusable="false" style="fill:currentColor">
+      <g>
+        <path
+          d="M5 13H16.17L11.29 17.88C10.9 18.27 10.9 18.91 11.29 19.3C11.68 19.69 12.31 19.69 12.7 19.3L19.29 12.71C19.68 12.32 19.68 11.69 19.29 11.3L12.71 4.69997C12.32 4.30997 11.69 4.30997 11.3 4.69997C10.91 5.08997 10.91 5.71997 11.3 6.10997L16.17 11H5C4.45 11 4 11.45 4 12C4 12.55 4.45 13 5 13Z">
+        </path>
+      </g>
+    </svg>
+    </button>
+
+
+  </div>
+  <div class="d-flex flex-column align-items-center gap-5 flex-lg-row align-items-lg-stretch">
+
+    <div class="card card-causa shadow mw-desktop-card-causa flex-1 position-relative">
+      <img src="/assets/img/landing/causa1.webp" alt="" srcset="">
+      <div class="card-body d-flex flex-column justify-content-between">
+        <a href="#"
+           class="card-title fw-bold fs-1125 mb-4 text-decoration-none stretched-link">Mi hija se suicidó
+          con 15 años. El
+          bullying NO es cosa
+          de
+          niñ{{ '@' }}s
+          >
+          ¡LEY ACOSO
+          ESCOLAR YA!</a>
+        <h6><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                 aria-hidden="true" class="icono-cards" focusable="false" style="fill:currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M24.3057 2.89793C25.2038 2.75172 26.2082 2.98818 27.0917 3.87164C27.9751 4.75511 28.2116 5.75947 28.0654 6.65762C27.9293 7.49376 27.4769 8.16564 27.0917 8.55088L15.3712 20.2713L10.692 20.2713V15.5921L22.4124 3.87164C22.7977 3.48641 23.4696 3.03404 24.3057 2.89793ZM24.627 4.87194C24.2932 4.92629 23.9856 5.12693 23.8267 5.28586L22.3571 6.75543L24.2079 8.60623L25.6774 7.13667C25.8364 6.97774 26.037 6.6701 26.0914 6.33627C26.1356 6.06446 26.1 5.7084 25.6775 5.28586C25.2549 4.86332 24.8989 4.8277 24.627 4.87194ZM22.7937 10.0204L20.9429 8.16964L12.692 16.4205V18.2713L14.5428 18.2713L22.7937 10.0204Z">
+          </path>
+          <path
+            d="M3.98535 23.6246C3.98535 21.758 5.47127 20.2713 7.27172 20.2713H8.34331V18.2713H7.27172C4.33758 18.2713 1.98535 20.6827 1.98535 23.6246C1.98535 26.4721 4.18906 28.8227 6.99116 28.9706C7.49532 29.0442 8.32129 29.0274 9.17398 28.7832C10.0569 28.5303 11.0711 28.0023 11.7489 26.9607C12.2066 26.2573 12.6114 25.9837 12.8798 25.8656C13.1537 25.7453 13.3811 25.7409 13.6253 25.7409C13.8299 25.7409 14.0786 25.7764 14.3627 25.9265C14.6504 26.0785 15.0285 26.3766 15.4446 26.9818C16.5386 28.5731 17.8935 29.0871 18.7984 28.9777C19.1307 28.9746 19.6015 28.9422 20.1516 28.6461C20.7046 28.3485 21.2544 27.8315 21.8676 27.0165C22.4186 26.2842 22.863 25.9894 23.1454 25.8633C23.4182 25.7416 23.6136 25.7409 23.7971 25.7409C23.9463 25.7409 24.7188 25.8022 25.4051 26.9174C25.9261 27.7641 26.5161 28.3496 27.363 28.6664C28.132 28.9541 29.0234 28.978 30.0003 28.978V26.978C28.9771 26.978 28.4433 26.9352 28.0637 26.7932C27.7621 26.6804 27.4803 26.4735 27.1084 25.8692C26.0087 24.0821 24.541 23.7409 23.7971 23.7409H23.7952C23.5315 23.7409 22.9936 23.7409 22.3302 24.037C21.675 24.3295 20.9783 24.8719 20.2694 25.8141C19.7412 26.5161 19.398 26.7805 19.2038 26.885C19.049 26.9683 18.9479 26.978 18.7244 26.978H18.6342L18.5455 26.9942C18.5569 26.9921 18.5537 26.9916 18.5376 26.9894C18.435 26.9753 17.808 26.8892 17.0927 25.8488C16.5265 25.0252 15.9178 24.4861 15.2968 24.1581C14.6723 23.8282 14.0904 23.7409 13.6253 23.7409L13.6131 23.7409C13.3219 23.7409 12.7437 23.7407 12.0749 24.0348C11.3912 24.3354 10.7044 24.8989 10.0726 25.8699C9.73814 26.3838 9.20822 26.693 8.6233 26.8605C8.02649 27.0314 7.4781 27.0228 7.27172 26.9903V26.978C5.47127 26.978 3.98535 25.4913 3.98535 23.6246Z">
+          </path>
+        </svg> <span class="texto-card-firmas fw-bold">260.566 firmas</span></h6>
+      </div>
+    </div>
+
+    <div class="card card-causa shadow mw-desktop-card-causa flex-1 position-relative">
+      <img src="/assets/img/landing/causa2.webp" alt="" srcset="">
+      <div class="card-body d-flex flex-column justify-content-between">
+        <a href="#"
+           class="card-title fw-bold fs-1125 mb-4 text-decoration-none stretched-link">El asesino de mi
+          hijo tenía 17 años. Pido revisar YA
+          la
+          ley
+          del menor para casos graves</a>
+        <h6><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                 aria-hidden="true" class="icono-cards" focusable="false" style="fill:currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M24.3057 2.89793C25.2038 2.75172 26.2082 2.98818 27.0917 3.87164C27.9751 4.75511 28.2116 5.75947 28.0654 6.65762C27.9293 7.49376 27.4769 8.16564 27.0917 8.55088L15.3712 20.2713L10.692 20.2713V15.5921L22.4124 3.87164C22.7977 3.48641 23.4696 3.03404 24.3057 2.89793ZM24.627 4.87194C24.2932 4.92629 23.9856 5.12693 23.8267 5.28586L22.3571 6.75543L24.2079 8.60623L25.6774 7.13667C25.8364 6.97774 26.037 6.6701 26.0914 6.33627C26.1356 6.06446 26.1 5.7084 25.6775 5.28586C25.2549 4.86332 24.8989 4.8277 24.627 4.87194ZM22.7937 10.0204L20.9429 8.16964L12.692 16.4205V18.2713L14.5428 18.2713L22.7937 10.0204Z">
+          </path>
+          <path
+            d="M3.98535 23.6246C3.98535 21.758 5.47127 20.2713 7.27172 20.2713H8.34331V18.2713H7.27172C4.33758 18.2713 1.98535 20.6827 1.98535 23.6246C1.98535 26.4721 4.18906 28.8227 6.99116 28.9706C7.49532 29.0442 8.32129 29.0274 9.17398 28.7832C10.0569 28.5303 11.0711 28.0023 11.7489 26.9607C12.2066 26.2573 12.6114 25.9837 12.8798 25.8656C13.1537 25.7453 13.3811 25.7409 13.6253 25.7409C13.8299 25.7409 14.0786 25.7764 14.3627 25.9265C14.6504 26.0785 15.0285 26.3766 15.4446 26.9818C16.5386 28.5731 17.8935 29.0871 18.7984 28.9777C19.1307 28.9746 19.6015 28.9422 20.1516 28.6461C20.7046 28.3485 21.2544 27.8315 21.8676 27.0165C22.4186 26.2842 22.863 25.9894 23.1454 25.8633C23.4182 25.7416 23.6136 25.7409 23.7971 25.7409C23.9463 25.7409 24.7188 25.8022 25.4051 26.9174C25.9261 27.7641 26.5161 28.3496 27.363 28.6664C28.132 28.9541 29.0234 28.978 30.0003 28.978V26.978C28.9771 26.978 28.4433 26.9352 28.0637 26.7932C27.7621 26.6804 27.4803 26.4735 27.1084 25.8692C26.0087 24.0821 24.541 23.7409 23.7971 23.7409H23.7952C23.5315 23.7409 22.9936 23.7409 22.3302 24.037C21.675 24.3295 20.9783 24.8719 20.2694 25.8141C19.7412 26.5161 19.398 26.7805 19.2038 26.885C19.049 26.9683 18.9479 26.978 18.7244 26.978H18.6342L18.5455 26.9942C18.5569 26.9921 18.5537 26.9916 18.5376 26.9894C18.435 26.9753 17.808 26.8892 17.0927 25.8488C16.5265 25.0252 15.9178 24.4861 15.2968 24.1581C14.6723 23.8282 14.0904 23.7409 13.6253 23.7409L13.6131 23.7409C13.3219 23.7409 12.7437 23.7407 12.0749 24.0348C11.3912 24.3354 10.7044 24.8989 10.0726 25.8699C9.73814 26.3838 9.20822 26.693 8.6233 26.8605C8.02649 27.0314 7.4781 27.0228 7.27172 26.9903V26.978C5.47127 26.978 3.98535 25.4913 3.98535 23.6246Z">
+          </path>
+        </svg> <span class="texto-card-firmas fw-bold">58.527 firmas</span></h6>
+      </div>
+    </div>
+
+    <div class="card card-causa shadow mw-desktop-card-causa flex-1 position-relative">
+      <img src="/assets/img/landing/causa3.webp" alt="" srcset="">
+      <div class="card-body d-flex flex-column justify-content-between">
+        <a href="#"
+           class="card-title fw-bold fs-1125 mb-4 text-decoration-none stretched-link">Me han echado de
+          clase por llevar Hiyab. ¡Libertad
+          religiosa
+          YA en instituto IES Sagasta!</a>
+        <h6><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                 aria-hidden="true" class="icono-cards" focusable="false" style="fill:currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M24.3057 2.89793C25.2038 2.75172 26.2082 2.98818 27.0917 3.87164C27.9751 4.75511 28.2116 5.75947 28.0654 6.65762C27.9293 7.49376 27.4769 8.16564 27.0917 8.55088L15.3712 20.2713L10.692 20.2713V15.5921L22.4124 3.87164C22.7977 3.48641 23.4696 3.03404 24.3057 2.89793ZM24.627 4.87194C24.2932 4.92629 23.9856 5.12693 23.8267 5.28586L22.3571 6.75543L24.2079 8.60623L25.6774 7.13667C25.8364 6.97774 26.037 6.6701 26.0914 6.33627C26.1356 6.06446 26.1 5.7084 25.6775 5.28586C25.2549 4.86332 24.8989 4.8277 24.627 4.87194ZM22.7937 10.0204L20.9429 8.16964L12.692 16.4205V18.2713L14.5428 18.2713L22.7937 10.0204Z">
+          </path>
+          <path
+            d="M3.98535 23.6246C3.98535 21.758 5.47127 20.2713 7.27172 20.2713H8.34331V18.2713H7.27172C4.33758 18.2713 1.98535 20.6827 1.98535 23.6246C1.98535 26.4721 4.18906 28.8227 6.99116 28.9706C7.49532 29.0442 8.32129 29.0274 9.17398 28.7832C10.0569 28.5303 11.0711 28.0023 11.7489 26.9607C12.2066 26.2573 12.6114 25.9837 12.8798 25.8656C13.1537 25.7453 13.3811 25.7409 13.6253 25.7409C13.8299 25.7409 14.0786 25.7764 14.3627 25.9265C14.6504 26.0785 15.0285 26.3766 15.4446 26.9818C16.5386 28.5731 17.8935 29.0871 18.7984 28.9777C19.1307 28.9746 19.6015 28.9422 20.1516 28.6461C20.7046 28.3485 21.2544 27.8315 21.8676 27.0165C22.4186 26.2842 22.863 25.9894 23.1454 25.8633C23.4182 25.7416 23.6136 25.7409 23.7971 25.7409C23.9463 25.7409 24.7188 25.8022 25.4051 26.9174C25.9261 27.7641 26.5161 28.3496 27.363 28.6664C28.132 28.9541 29.0234 28.978 30.0003 28.978V26.978C28.9771 26.978 28.4433 26.9352 28.0637 26.7932C27.7621 26.6804 27.4803 26.4735 27.1084 25.8692C26.0087 24.0821 24.541 23.7409 23.7971 23.7409H23.7952C23.5315 23.7409 22.9936 23.7409 22.3302 24.037C21.675 24.3295 20.9783 24.8719 20.2694 25.8141C19.7412 26.5161 19.398 26.7805 19.2038 26.885C19.049 26.9683 18.9479 26.978 18.7244 26.978H18.6342L18.5455 26.9942C18.5569 26.9921 18.5537 26.9916 18.5376 26.9894C18.435 26.9753 17.808 26.8892 17.0927 25.8488C16.5265 25.0252 15.9178 24.4861 15.2968 24.1581C14.6723 23.8282 14.0904 23.7409 13.6253 23.7409L13.6131 23.7409C13.3219 23.7409 12.7437 23.7407 12.0749 24.0348C11.3912 24.3354 10.7044 24.8989 10.0726 25.8699C9.73814 26.3838 9.20822 26.693 8.6233 26.8605C8.02649 27.0314 7.4781 27.0228 7.27172 26.9903V26.978C5.47127 26.978 3.98535 25.4913 3.98535 23.6246Z">
+          </path>
+        </svg> <span class="texto-card-firmas fw-bold">11.474 firmas</span></h6>
+      </div>
+    </div>
+
+    <div class="card card-causa shadow mw-desktop-card-causa flex-1 position-relative">
+      <img src="/assets/img/landing/causa4-webp.webp" alt="" srcset="">
+      <div class="card-body d-flex flex-column justify-content-between">
+        <a href="#"
+           class="card-title fw-bold fs-1125 mb-4 text-decoration-none stretched-link">Soy víctima de
+          violencia machista. Pido mejorar
+          urgentemente
+          las pulseras de protección</a>
+        <h6><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                 aria-hidden="true" class="icono-cards" focusable="false" style="fill:currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M24.3057 2.89793C25.2038 2.75172 26.2082 2.98818 27.0917 3.87164C27.9751 4.75511 28.2116 5.75947 28.0654 6.65762C27.9293 7.49376 27.4769 8.16564 27.0917 8.55088L15.3712 20.2713L10.692 20.2713V15.5921L22.4124 3.87164C22.7977 3.48641 23.4696 3.03404 24.3057 2.89793ZM24.627 4.87194C24.2932 4.92629 23.9856 5.12693 23.8267 5.28586L22.3571 6.75543L24.2079 8.60623L25.6774 7.13667C25.8364 6.97774 26.037 6.6701 26.0914 6.33627C26.1356 6.06446 26.1 5.7084 25.6775 5.28586C25.2549 4.86332 24.8989 4.8277 24.627 4.87194ZM22.7937 10.0204L20.9429 8.16964L12.692 16.4205V18.2713L14.5428 18.2713L22.7937 10.0204Z">
+          </path>
+          <path
+            d="M3.98535 23.6246C3.98535 21.758 5.47127 20.2713 7.27172 20.2713H8.34331V18.2713H7.27172C4.33758 18.2713 1.98535 20.6827 1.98535 23.6246C1.98535 26.4721 4.18906 28.8227 6.99116 28.9706C7.49532 29.0442 8.32129 29.0274 9.17398 28.7832C10.0569 28.5303 11.0711 28.0023 11.7489 26.9607C12.2066 26.2573 12.6114 25.9837 12.8798 25.8656C13.1537 25.7453 13.3811 25.7409 13.6253 25.7409C13.8299 25.7409 14.0786 25.7764 14.3627 25.9265C14.6504 26.0785 15.0285 26.3766 15.4446 26.9818C16.5386 28.5731 17.8935 29.0871 18.7984 28.9777C19.1307 28.9746 19.6015 28.9422 20.1516 28.6461C20.7046 28.3485 21.2544 27.8315 21.8676 27.0165C22.4186 26.2842 22.863 25.9894 23.1454 25.8633C23.4182 25.7416 23.6136 25.7409 23.7971 25.7409C23.9463 25.7409 24.7188 25.8022 25.4051 26.9174C25.9261 27.7641 26.5161 28.3496 27.363 28.6664C28.132 28.9541 29.0234 28.978 30.0003 28.978V26.978C28.9771 26.978 28.4433 26.9352 28.0637 26.7932C27.7621 26.6804 27.4803 26.4735 27.1084 25.8692C26.0087 24.0821 24.541 23.7409 23.7971 23.7409H23.7952C23.5315 23.7409 22.9936 23.7409 22.3302 24.037C21.675 24.3295 20.9783 24.8719 20.2694 25.8141C19.7412 26.5161 19.398 26.7805 19.2038 26.885C19.049 26.9683 18.9479 26.978 18.7244 26.978H18.6342L18.5455 26.9942C18.5569 26.9921 18.5537 26.9916 18.5376 26.9894C18.435 26.9753 17.808 26.8892 17.0927 25.8488C16.5265 25.0252 15.9178 24.4861 15.2968 24.1581C14.6723 23.8282 14.0904 23.7409 13.6253 23.7409L13.6131 23.7409C13.3219 23.7409 12.7437 23.7407 12.0749 24.0348C11.3912 24.3354 10.7044 24.8989 10.0726 25.8699C9.73814 26.3838 9.20822 26.693 8.6233 26.8605C8.02649 27.0314 7.4781 27.0228 7.27172 26.9903V26.978C5.47127 26.978 3.98535 25.4913 3.98535 23.6246Z">
+          </path>
+        </svg> <span class="texto-card-firmas fw-bold">31.817 firmas</span></h6>
+      </div>
+    </div>
+
+  </div>
+</section>

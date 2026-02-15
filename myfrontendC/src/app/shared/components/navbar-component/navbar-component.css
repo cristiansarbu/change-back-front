@@ -1,0 +1,44 @@
+.text-header-gray {
+  color: #403a49 !important;
+}
+
+.logo {
+  width: 102px;
+  color: #f34e49;
+}
+
+.hamburger {
+  width: 24px;
+}
+
+.button-petition {
+  background-color: white;
+  border: 1px solid;
+}
+
+.search {
+  width: 24px;
+}
+
+.nav-item:hover {
+  background-color: rgba(64, 58, 73, 0.0509803922);
+  border-radius: 0.5rem;
+}
+
+.create-petition-button {
+  border: 1px solid #acadad !important;
+}
+
+.create-petition-button:hover {
+  background-color: rgba(64, 58, 73, 0.0509803922);
+  border: 1px solid #acadad;
+}
+
+.navbar-toggler {
+  border: 0;
+}
+
+.logout-button {
+  cursor: pointer;
+}
+

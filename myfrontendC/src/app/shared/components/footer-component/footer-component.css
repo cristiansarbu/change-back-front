@@ -1,0 +1,29 @@
+footer section h3,
+footer section h2 {
+  font-size: 1rem;
+}
+
+footer section h2 {
+  font-weight: bold;
+}
+
+footer section h3 {
+  font-weight: lighter;
+}
+
+footer section {
+  max-width: 121px;
+}
+
+.dropup-idiomas {
+  border: 1px solid #acadad;
+  text-align: start;
+}
+
+@media (min-width: 768px) {
+  .dropup-idiomas {
+    max-width: 250px;
+  }
+}
+
+/*# sourceMappingURL=footer.css.map */
