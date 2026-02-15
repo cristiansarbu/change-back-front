@@ -27,6 +27,7 @@ export class ShowComponent {
     const id = this.route.snapshot.paramMap.get('id');
     this.authService.user$.subscribe(user => {
       this.currentUserId = user ? user.id : null;
+      this.updateIsOwner();
     });
     this.authService.loadUserIfNeeded();
     if (id) {
@@ -39,9 +40,7 @@ export class ShowComponent {
       next: (res: any) => {
         this.petition.set(res.data ? res.data : res);
         this.loading.set(false);
-        if (this.petition()!.user!.id! === this.currentUserId) {
-          this.isOwner = true;
-        }
+        this.updateIsOwner();
       },
       error: (err) => {
         this.loading.set(false);
@@ -74,5 +73,11 @@ export class ShowComponent {
     this.petitionService.delete(petition!.id!).subscribe(() => {
       this.router.navigate(['/petitions/mine']);
     });
+  }
+
+  private updateIsOwner() {
+    const p = this.petition();
+    const uid = this.currentUserId;
+    this.isOwner = !!p && !!uid && p.user?.id === uid;
   }
 }
