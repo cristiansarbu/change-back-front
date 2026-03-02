@@ -61,7 +61,9 @@ class PetitionController extends Controller
             'description' => 'required',
             'destinatary' => 'required',
             'category_id' => 'required|exists:categories,id',
-            'file' => 'required|file|mimes:jpeg,png,jpg,svg'
+            'files' => 'nullable|array',
+            'files.*' => 'file|mimes:jpeg,png,jpg,svg|max:2048'
+//            'file' => 'required|file|mimes:jpeg,png,jpg,svg'
         ],
             [
                 'category_id.exists' => 'La categoría seleccionada no existe.'
@@ -126,7 +128,8 @@ class PetitionController extends Controller
             'description' => 'required',
             'destinatary' => 'required',
             'category_id' => 'required|exists:categories,id',
-            'file' => 'file|mimes:jpeg,png,jpg,svg'
+            'files' => 'nullable|array',
+            'files.*' => 'file|mimes:jpeg,png,jpg,svg|max:2048'
         ],
             [
                 'category_id.exists' => 'La categoría seleccionada no existe.'
@@ -139,16 +142,17 @@ class PetitionController extends Controller
             return $this->sendError('Error de validación', $validator->errors(), 422);
         }
 
-        $input = $request->except('file');
+        $input = $request->except('files');
 
         try {
             $petition->update($input);
 
-            if ($request->hasFile('file')) {
-                $fileExistente = File::where('petition_id', $petition->id)->first();
-                Storage::disk('public')->delete('petitions/' . $fileExistente->file_path);
-                $fileExistente->delete();
-
+            if ($request->hasFile('files')) {
+                $filesExistentes = File::where('petition_id', $petition->id)->get();
+                foreach ($filesExistentes as $file) {
+                    Storage::disk('public')->delete($file->file_path);
+                    $file->delete();
+                }
                 $this->fileUpload($request, $petition->id);
             }
             $petition->load(['files', 'user']);
@@ -164,16 +168,14 @@ class PetitionController extends Controller
     public function delete(Petition $petition)
     {
         try {
-            $file = File::where('petition_id', $petition->id)->first();
-
-            if ($file) {
-                Storage::disk('public')->delete('petitions/' . $file->file_path);
+            $files = File::where('petition_id', $petition->id)->get();
+            foreach ($files as $file) {
+                Storage::disk('public')->delete($file->file_path);
                 $file->delete();
             }
 
             $petition->signers()->detach();
             $petition->delete();
-
             return $this->sendResponse(null, 'Petición eliminada con éxito');
         } catch (\Exception $e) {
             return $this->sendError('Error al eliminar la petición', $e->getMessage(), 500);
@@ -242,21 +244,19 @@ class PetitionController extends Controller
 
     public function fileUpload(Request $req, $petition_id = null)
     {
-        $file = $req->file('file');
+        if (!$req->hasFile('files')) {
+            return false;
+        }
+        foreach ($req->file('files') as $file) {
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('petitions', $filename, 'public');
 
-        $fileModel = File::where('petition_id', $petition_id)->first();
-        if (!$fileModel) {
             $fileModel = new File;
             $fileModel->petition_id = $petition_id;
-            if ($req->file('file')) {
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('petitions', $filename, 'public');
-                $fileModel->name = $filename;
-                $fileModel->file_path = $filename;
-                $res = $fileModel->save();
-                return $fileModel;
-            }
-            return 1;
+            $fileModel->name = $filename;
+            $fileModel->file_path = $path;
+            $fileModel->save();
         }
+        return true;
     }
 }
