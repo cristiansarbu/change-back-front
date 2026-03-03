@@ -5,7 +5,45 @@
       <h1 class="fw-bold fs-1 text-center text-lg-start">{{ petition()!.title }}</h1>
 
       <div class="mt-4 mb-5">
-        <img [src]="petition()!.files![0].url" class="img-fluid">
+        @if ((petition()!.files?.length ?? 0) > 1) {
+          <div id="petitionCarousel" class="carousel slide" data-bs-ride="carousel">
+
+            <div class="carousel-indicators">
+              @for (file of petition()!.files!; track file.id; let i = $index) {
+                <button type="button"
+                        data-bs-target="#petitionCarousel"
+                        [attr.data-bs-slide-to]="i"
+                        [class.active]="i === 0"
+                        [attr.aria-current]="i === 0 ? 'true' : null">
+                </button>
+              }
+            </div>
+
+            <div class="carousel-inner rounded">
+              @for (file of petition()!.files!; track file.id; let i = $index) {
+                <div class="carousel-item" [class.active]="i === 0">
+                  <img [src]="file.url" class="d-block w-100 img-fluid img-altura-max">
+                </div>
+              }
+            </div>
+
+            <button class="carousel-control-prev" type="button"
+                    data-bs-target="#petitionCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button"
+                    data-bs-target="#petitionCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Siguiente</span>
+            </button>
+
+          </div>
+
+        } @else {
+          <img [src]="petition()!.files![0].url" class="img-fluid rounded w-100 img-altura-max">
+        }
+
       </div>
 
       <div class="border-top pt-3">

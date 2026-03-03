@@ -23,7 +23,7 @@ export class CreateComponent {
 
   categories: Category[] = [];
   loading = signal(false);
-  fileToUpload: File | null = null;
+  filesToUpload: File[] = [];
   fileError = signal('');
   itemForm = this.fb.group({
     title: ['', [Validators.required]],
@@ -49,39 +49,45 @@ export class CreateComponent {
 
   onFileSelected(event: any) {
     this.fileError.set('');
+    const files: FileList = event.target.files;
 
-    const file = event.target.files[0] ?? null;
-    if (!file) {
-      this.fileToUpload = null;
+    if (!files || files.length === 0) {
+      this.filesToUpload = [];
       return;
     }
 
     const allowed = ['image/jpeg', 'image/png', 'image/svg+xml'];
-    if (!allowed.includes(file.type)) {
-      this.fileToUpload = null;
-      this.fileError.set('Formato inválido. Usa JPG, PNG o SVG.');
-      return;
-    }
 
-    this.fileToUpload = file;
+    for (let file of files) {
+      if (!allowed.includes(file.type)) {
+        this.fileError.set(`Formato inválido en el archivo "${file.name}". Usa JPG, PNG o SVG.`);
+        this.filesToUpload = [];
+        return;
+      }
+      this.filesToUpload.push(file);
+    }
   }
 
   onSubmit() {
     this.fileError.set('');
 
-    if (!this.fileToUpload) {
-      this.fileError.set('Debes seleccionar una imagen.');
+    if (this.filesToUpload.length === 0) {
+      this.fileError.set('Debes seleccionar al menos una imagen.');
       return;
     }
 
-    if (this.itemForm.valid && this.fileToUpload) {
+    if (this.itemForm.valid && this.filesToUpload.length > 0) {
       this.loading.set(true);
       const formData = new FormData();
       formData.append('title', this.itemForm.value.title!);
       formData.append('description', this.itemForm.value.description!);
       formData.append('destinatary', this.itemForm.value.destinatary!);
       formData.append('category_id', this.itemForm.value.category_id!);
-      formData.append('file', this.fileToUpload);
+
+      this.filesToUpload.forEach(file => {
+        formData.append('files[]', file);
+      });
+
       this.petitionService.create(formData).subscribe({
         next: () => {
           console.log('ha venido la respuesta:');

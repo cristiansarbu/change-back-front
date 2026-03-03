@@ -97,11 +97,11 @@ class PetitionController extends Controller
                     $petition->load(['files', 'user']);
                     return $this->sendResponse($petition, 'Petición creada con éxito', 201);
                 } else {
-                    return $this->sendError('Error al crear la petición', 500);
+                    return $this->sendError('Error al crear la petición', [], 500);
                 }
             }
         } catch (\Exception $exception) {
-            return $this->sendError('Error al crear la petición', 500, $exception->getMessage());
+            return $this->sendError('Error al crear la petición', $exception->getMessage(), 500);
         }
     }
 
@@ -128,7 +128,7 @@ class PetitionController extends Controller
             'description' => 'required',
             'destinatary' => 'required',
             'category_id' => 'required|exists:categories,id',
-            'files' => 'nullable|array',
+            'files' => 'array',
             'files.*' => 'file|mimes:jpeg,png,jpg,svg|max:2048'
         ],
             [

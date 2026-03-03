@@ -69,3 +69,8 @@
 .modal-backdrop {
   z-index: 1050 !important;
 }
+
+.img-altura-max {
+  max-height: 450px;
+  object-fit: cover;
+}

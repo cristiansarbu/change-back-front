@@ -68,12 +68,13 @@
       </div>
 
       <div class="mb-4">
-        <label for="file" class="form-label fw-bold">Imagen o archivo relacionado *</label>
+        <label for="file" class="form-label fw-bold">Nuevas imágenes o archivos relacionados</label>
         <input
           type="file"
           id="file"
           class="form-control"
           accept=".jpg,.jpeg,.png,.svg"
+          multiple
           (change)="onFileSelected($event)"
         >
         <small class="text-muted">Formatos permitidos: JPG, JPEG, PNG, SVG.</small>

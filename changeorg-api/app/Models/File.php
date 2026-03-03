@@ -17,6 +17,6 @@ class File extends Model
 
     // Método mágico accesor que se ejecuta automáticamente para el atributo de $appends con el nombre "Url"
     public function getUrlAttribute() {
-        return asset('storage/petitions/' . $this->file_path);
+        return asset('storage/' . $this->file_path);
     }
 }
