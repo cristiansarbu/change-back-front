@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
 import {PetitionService} from '../../services/petition';
 import {Petition} from '../../../../core/models/petition';
 import {CategoryService} from '../../services/category';
@@ -20,12 +20,17 @@ export class ListComponent {
   public categories: Category[] = [];
   public loading: boolean = true;
 
+  activePetitions = signal<Petition[]>([]);
+  signFilter = signal<string>('Todas');
+  categoryFilter = signal<number | null>(null);
+
   ngOnInit() {
     this.loading = true;
     this.petitionService.fetchPetitions().subscribe({
       next: (data) => {
         this.petitions = data;
         this.loading = false;
+        this.activePetitions.set(data);
       },
       error: (err) => {
         console.error('Error al cargar peticiones:', err);
@@ -41,4 +46,38 @@ export class ListComponent {
       }
     })
   }
+
+  applyFilters() {
+    let filtradas = this.petitions;
+
+    if (this.signFilter() === 'Firmada') {
+      filtradas = filtradas.filter(petition => ((petition.signers ?? 0) > 0))
+    } else if (this.signFilter() === 'No Firmada') {
+      filtradas = filtradas.filter(petition => ((petition.signers ?? 0) === 0))
+    }
+
+    if (this.categoryFilter() !== null) {
+      filtradas = filtradas.filter(petition => (petition.category_id === this.categoryFilter()));
+    }
+
+    this.activePetitions.set(filtradas);
+  }
+
+  signFilterChanged(value: string) {
+    this.signFilter.set(value);
+    this.applyFilters();
+  }
+
+  categoryFilterChanged(value: number | null) {
+    this.categoryFilter.set(value);
+    this.applyFilters();
+  }
+
+  categoryFilterText = computed(() => {
+    if (this.categoryFilter() === null) {
+      return 'Todas';
+    }
+    return this.categories.find(category => (category.id === this.categoryFilter()))?.name
+  })
+
 }
