@@ -1,9 +1,10 @@
-import {Component, computed, inject, signal} from '@angular/core';
+import {Component, computed, effect, inject, signal} from '@angular/core';
 import {PetitionService} from '../../services/petition';
 import {Petition} from '../../../../core/models/petition';
 import {CategoryService} from '../../services/category';
 import {Category} from '../../../../core/models/category';
 import {RouterLink} from '@angular/router';
+import {Search} from '../../services/search';
 
 @Component({
   selector: 'app-list-component',
@@ -16,6 +17,7 @@ import {RouterLink} from '@angular/router';
 export class ListComponent {
   private petitionService = inject(PetitionService);
   private categoryService = inject(CategoryService);
+  private searchService = inject(Search);
   public petitions: Petition[] = [];
   public categories: Category[] = [];
   public loading: boolean = true;
@@ -24,13 +26,14 @@ export class ListComponent {
   signFilter = signal<string>('Todas');
   categoryFilter = signal<number | null>(null);
 
+  public searchQuery = this.searchService.searchQuery;
   ngOnInit() {
     this.loading = true;
     this.petitionService.fetchPetitions().subscribe({
       next: (data) => {
         this.petitions = data;
         this.loading = false;
-        this.activePetitions.set(data);
+        this.applyFilters();
       },
       error: (err) => {
         console.error('Error al cargar peticiones:', err);
@@ -60,6 +63,12 @@ export class ListComponent {
       filtradas = filtradas.filter(petition => (petition.category_id === this.categoryFilter()));
     }
 
+    if (this.searchQuery() !== '') {
+      filtradas = filtradas.filter(petition =>
+        (petition.title.toLowerCase().includes(this.searchQuery().toLowerCase()))
+      );
+    }
+
     this.activePetitions.set(filtradas);
   }
 
@@ -78,6 +87,11 @@ export class ListComponent {
       return 'Todas';
     }
     return this.categories.find(category => (category.id === this.categoryFilter()))?.name
+  })
+
+  searchEffect = effect(() => {
+    this.searchQuery();
+    this.applyFilters();
   })
 
 }

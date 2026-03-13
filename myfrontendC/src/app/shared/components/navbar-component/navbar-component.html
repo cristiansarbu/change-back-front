@@ -1,6 +1,6 @@
 <header>
   <nav class="navbar border-bottom navbar-expand-lg">
-    <div class="container-fluid container-lg align-items-baseline">
+    <div class="container-fluid container-lg align-items-center">
       <a class="navbar-brand p-0" [routerLink]="['/home']">
         <svg class="logo" height="100%" viewBox="0 0 245 48"
              xmlns="http://www.w3.org/2000/svg" data-qa="LogoSvg">
@@ -72,61 +72,40 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-        <ul class="navbar-nav ms-3 gap-3 me-auto mb-2 mb-lg-0 d-none d-lg-flex align-items-lg-center">
-          <li class="nav-item">
-            <a class="nav-link fw-bold text-header-gray" [routerLink]="['/petitions']">
-              <svg class="search"
-                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                   aria-hidden="true" focusable="false" style="fill: currentcolor;">
-                <g id="search" clip-path="url(#clip0_303_7720)">
-                  <path id="Vector"
-                        d="M15.4996 13.9999H14.7096L14.4296 13.7299C15.6296 12.3299 16.2496 10.4199 15.9096 8.38989C15.4396 5.60989 13.1196 3.38989 10.3196 3.04989C6.08965 2.52989 2.52965 6.08989 3.04965 10.3199C3.38965 13.1199 5.60965 15.4399 8.38965 15.9099C10.4196 16.2499 12.3296 15.6299 13.7296 14.4299L13.9996 14.7099V15.4999L18.2496 19.7499C18.6596 20.1599 19.3296 20.1599 19.7396 19.7499C20.1496 19.3399 20.1496 18.6699 19.7396 18.2599L15.4996 13.9999ZM9.49965 13.9999C7.00965 13.9999 4.99965 11.9899 4.99965 9.49989C4.99965 7.00989 7.00965 4.99989 9.49965 4.99989C11.9896 4.99989 13.9996 7.00989 13.9996 9.49989C13.9996 11.9899 11.9896 13.9999 9.49965 13.9999Z">
-                  </path>
-                </g>
-                <defs>
-                  <clipPath id="clip0_303_7720">
-                    <rect width="24" height="24"></rect>
-                  </clipPath>
-                </defs>
+        <div class="d-none d-lg-block mx-auto px-3" style="max-width: 340px; flex: 1;">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.5 14H14.71L14.43 13.73C15.63 12.33 16.25 10.42 15.91 8.39C15.44 5.61 13.12 3.39 10.32 3.05C6.09 2.53 2.53 6.09 3.05 10.32C3.39 13.12 5.61 15.44 8.39 15.91C10.42 16.25 12.33 15.63 13.73 14.43L14 14.71V15.5L18.25 19.75C18.66 20.16 19.33 20.16 19.74 19.75C20.15 19.34 20.15 18.67 19.74 18.26L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"/>
               </svg>
-              Buscar</a>
-          </li>
-          @if (isLoggedIn()) {
-            <a [routerLink]="['/petitions/mine']"
-               class="text-decoration-none text-dark fw-bold text-header-gray nav-item p-2 py-1">Mis Peticiones</a>
-            <a [routerLink]="['/petitions/signed']"
-               class="text-decoration-none text-dark fw-bold text-header-gray nav-item p-2 py-1 me-3">Mis Firmas</a>
-          }
-        </ul>
+            </span>
+            <input type="text" [(ngModel)]="searchText" (input)="search()" class="form-control border-start-0" placeholder="Buscar peticiones...">
+          </div>
+        </div>
 
-        <div class="buttons-right d-flex align-items-center d-none d-lg-flex">
+        <a [routerLink]="['/petitions']"
+           class="text-decoration-none fw-bold text-header-gray nav-item px-2 py-1 d-none d-lg-block me-2">Peticiones</a>
+
+        <div class="buttons-right d-none d-lg-flex align-items-center gap-2 text-nowrap">
           @if (isLoggedIn()) {
-            <span class="navbar-text text-header-gray me-4">Bienvenido/a, {{ currentUser()?.name }}</span>
-            <a [routerLink]="['/petitions/create']">
-              <button type="button"
-                      class="create-petition-button btn btn-primary button-petition fw-bold me-3 text-header-gray py-2">
-                Inicia
-                una
-                petición
-              </button>
-            </a>
+            <span class="navbar-text text-header-gray">Bienvenido/a, {{ currentUser()?.name }}</span>
+            <a [routerLink]="['/petitions/mine']"
+               class="text-decoration-none fw-bold text-header-gray nav-item px-2 py-1">Mis Peticiones</a>
+            <a [routerLink]="['/petitions/signed']"
+               class="text-decoration-none fw-bold text-header-gray nav-item px-2 py-1">Mis Firmas</a>
+            <a [routerLink]="['/petitions/create']"
+               class="btn button-petition create-petition-button fw-bold text-header-gray py-2">Inicia una petición</a>
             <a [routerLink]="['/profile']"
-               class="text-decoration-none text-dark fw-bold text-header-gray nav-item p-2 py-1 me-3">Perfil</a>
+               class="text-decoration-none fw-bold text-header-gray nav-item px-2 py-1">Perfil</a>
             <a (click)="logout()"
-               class="text-decoration-none text-dark fw-bold text-header-gray nav-item p-2 py-1 logout-button">Cerrar Sesión</a>
+               class="text-decoration-none fw-bold text-header-gray nav-item px-2 py-1 logout-button">Salir</a>
           } @else {
-            <a [routerLink]="['/login']">
-              <button type="button"
-                      class="create-petition-button btn btn-primary button-petition fw-bold me-3 text-header-gray py-2">
-                Inicia
-                una
-                petición
-              </button>
-            </a>
             <a [routerLink]="['/login']"
-               class="text-decoration-none text-dark fw-bold text-header-gray nav-item p-2 py-1 me-3">Entrar</a>
+               class="btn button-petition create-petition-button fw-bold text-header-gray py-2">Inicia una petición</a>
+            <a [routerLink]="['/login']"
+               class="text-decoration-none fw-bold text-header-gray nav-item px-2 py-1">Entrar</a>
             <a [routerLink]="['/register']"
-               class="text-decoration-none text-dark fw-bold text-header-gray nav-item p-2 py-1">Registrarse</a>
+               class="text-decoration-none fw-bold text-header-gray nav-item px-2 py-1">Registrarse</a>
           }
         </div>
 
