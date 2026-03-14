@@ -26,6 +26,47 @@ export class ListComponent {
   signFilter = signal<string>('Todas');
   categoryFilter = signal<number | null>(null);
 
+  public petitionsPerPage = 1;
+  currentPage = signal<number>(1);
+  totalPages = computed(() => {
+    // Redondear hacia arriba para no perder peticiones (última página)
+    return Math.ceil(this.activePetitions().length / this.petitionsPerPage);
+  });
+
+  paginatedPetitions = computed(() => {
+    const startIndex = (this.currentPage() - 1) * this.petitionsPerPage;
+    const endIndex = startIndex + this.petitionsPerPage;
+    return this.activePetitions().slice(startIndex, endIndex);
+  });
+
+  paginatorPages = computed(() => {
+    let pages: number[] = [];
+
+    // Comprobación si hay menos de 3 elementos
+    if (this.totalPages() <= 3) {
+      for (let i = 1; i <= this.totalPages(); i++) {
+        pages.push(i);
+      }
+      return pages;
+    }
+
+    // Lógica números
+    if (this.currentPage() === 1) {
+      pages.push(this.currentPage());
+      pages.push(this.currentPage() + 1);
+      pages.push(this.currentPage() + 2);
+    } else if (this.currentPage() === this.totalPages()) {
+      pages.push(this.currentPage() - 2);
+      pages.push(this.currentPage() - 1);
+      pages.push(this.currentPage());
+    } else {
+      pages.push(this.currentPage() - 1);
+      pages.push(this.currentPage());
+      pages.push(this.currentPage() + 1);
+    }
+    return pages;
+  });
+
   public searchQuery = this.searchService.searchQuery;
   ngOnInit() {
     this.loading = true;
@@ -52,6 +93,7 @@ export class ListComponent {
 
   applyFilters() {
     let filtradas = this.petitions;
+    this.currentPage.set(1);
 
     if (this.signFilter() === 'Firmada') {
       filtradas = filtradas.filter(petition => ((petition.signers ?? 0) > 0))

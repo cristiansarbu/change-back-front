@@ -9,7 +9,7 @@
     </div>
   } @else {
     <div class="row row-cols-1 g-4 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-5">
-      @for (p of petitions; track p.id) {
+      @for (p of paginatedPetitions(); track p.id) {
         <div class="col">
           <div class="card card-causa shadow mw-desktop-card-causa flex-1 mx-auto position-relative">
             @if (p.files?.length) {
@@ -50,5 +50,23 @@
         </div>
       }
     </div>
+
+    @if (totalPages() > 1) {
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage() === 1">
+            <a class="page-link" (click)="currentPage.set(currentPage() - 1)">Anterior</a>
+          </li>
+          @for (page of paginatorPages(); track $index) {
+            <li class="page-item" [class.active]="currentPage() === page">
+              <a class="page-link" (click)="currentPage.set(page)">{{ page }}</a>
+            </li>
+          }
+          <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+            <a class="page-link" (click)="currentPage.set(currentPage() + 1)">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+    }
   }
 </section>
