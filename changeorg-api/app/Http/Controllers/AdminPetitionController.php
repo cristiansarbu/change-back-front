@@ -5,19 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Petition;
-use App\Http\Controllers\Controller;
-use App\Models\User;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class PetitionController extends Controller
+class AdminPetitionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         try {
@@ -28,9 +22,6 @@ class PetitionController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -82,9 +73,6 @@ class PetitionController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         try {
@@ -95,9 +83,6 @@ class PetitionController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Petition $petition)
     {
         $validator = Validator::make($request->all(), [
@@ -139,9 +124,6 @@ class PetitionController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function delete(Petition $petition)
     {
         try {
@@ -156,50 +138,6 @@ class PetitionController extends Controller
             return $this->sendResponse(null, 'Petición eliminada con éxito');
         } catch (\Exception $e) {
             return $this->sendError('Error al eliminar la petición', $e->getMessage(), 500);
-        }
-    }
-
-    public function listMine(Request $request)
-    {
-        try {
-            $user = Auth::user();
-            $petitions = $user->petitions()->with(['files', 'user'])->get();
-            return $this->sendResponse($petitions, 'Tus peticiones han sido recuperadas con éxito.');
-        } catch (\Exception $e) {
-            return $this->sendError('Error al recuperar tus peticiones', $e->getMessage(), 500);
-        }
-    }
-
-    public function sign(Request $request, Petition $petition)
-    {
-        try {
-            $user = Auth::user();
-            $signers = $petition->signers()->get();
-            foreach ($signers as $signer) {
-                if ($signer->id == $user->id) {
-                    return $this->sendError('Ya has firmado esta petición.', [], 400);
-                }
-            }
-            $user_id = [$user->id];
-            $petition->signers()->attach($user_id);
-            $petition->signers = $petition->signers + 1;
-            $petition->save();
-            $petition->load(['files', 'user']);
-            return $this->sendResponse($petition, 'Petición firmada con éxito');
-        } catch (\Exception $e) {
-            return $this->sendError('No se pudo firmar la petición', $e->getMessage(), 500);
-        }
-    }
-
-    public function signedPetitions(Request $request)
-    {
-        try {
-            $id = Auth::id();
-            $user = User::findOrFail($id);
-            $petitions = $user->signedPetitions()->with(['files', 'user'])->get();
-            return $this->sendResponse($petitions, 'Peticiones firmadas recuperadas con éxito');
-        } catch (\Exception $exception) {
-            return $this->sendError('No se pudieron recuperar tus peticiones firmadas.', $exception->getMessage(), 500);
         }
     }
 

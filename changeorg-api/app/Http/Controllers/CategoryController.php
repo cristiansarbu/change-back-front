@@ -8,29 +8,6 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    // Método auxiliar para estandarizar respuestas de éxito
-    private function sendResponse($data, $message, $code = 200)
-    {
-        return response()->json([
-            'success' => true,
-            'data' => $data,
-            'message' => $message
-        ], $code);
-    }
-
-    // Método auxiliar para estandarizar respuestas de error
-    private function sendError($error, $errorMessages = [], $code = 404)
-    {
-        $response = [
-            'success' => false,
-            'message' => $error,
-        ];
-        if (!empty($errorMessages)) {
-            $response['errors'] = $errorMessages;
-        }
-        return response()->json($response, $code);
-    }
-
     public function index()
     {
         try {
