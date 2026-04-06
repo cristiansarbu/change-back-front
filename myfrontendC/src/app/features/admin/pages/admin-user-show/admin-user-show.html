@@ -1,0 +1,67 @@
+<div class="d-flex flex-column align-items-center min-vh-100 py-5" style="background-color: #f8f9fa;">
+  @if (loading()) {
+    <p>Cargando usuario...</p>
+  } @else if (user()) {
+    <div class="card shadow-sm rounded-4" style="width: 100%; max-width: 600px;">
+      <div class="card-body p-4 p-md-5">
+
+        <div class="d-flex justify-content-between align-items-start mb-4">
+          <h1 class="fw-bold fs-2">Detalles del Usuario</h1>
+          <a [routerLink]="['/admin/users/edit', user().id]" class="btn btn-outline-dark fw-bold py-2 px-3">
+            Editar Usuario
+          </a>
+        </div>
+
+        <hr class="mb-4">
+
+        <div class="row mb-4">
+          <div class="col-auto">
+            <div class="bg-light-subtle rounded-circle d-flex justify-content-center align-items-center"
+                 style="width: 70px; height: 70px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#808080"
+                   class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="col">
+            <h2 class="mb-0 fw-bold">{{ user().name }}</h2>
+            <p class="text-muted fs-5">{{ user().email }}</p>
+          </div>
+        </div>
+
+        <hr class="mt-0 mb-4">
+
+        <dl class="row">
+          <dt class="col-sm-4 text-muted">ID</dt>
+          <dd class="col-sm-8 fw-bold">{{ user().id }}</dd>
+
+          <dt class="col-sm-4 text-muted">Nombre Completo</dt>
+          <dd class="col-sm-8">{{ user().name }}</dd>
+
+          <dt class="col-sm-4 text-muted">Correo Electrónico</dt>
+          <dd class="col-sm-8">{{ user().email }}</dd>
+
+          <dt class="col-sm-4 text-muted">Rol</dt>
+          <dd class="col-sm-8">
+            @if (user().admin) {
+              <span class="badge bg-danger text-uppercase fw-bold">Administrador</span>
+            } @else {
+              <span class="badge bg-secondary text-uppercase fw-bold">Usuario Estándar</span>
+            }
+          </dd>
+        </dl>
+
+        <hr class="mt-4 mb-4">
+
+        <div class="d-flex justify-content-end">
+          <a routerLink="/admin/users" class="btn btn-outline-secondary fw-bold px-4 py-2">
+            Volver al Listado
+          </a>
+        </div>
+
+      </div>
+    </div>
+  }
+</div>

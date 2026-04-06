@@ -1,0 +1,92 @@
+@if (loading()) {
+  <div class="container mt-5">
+    <p>Cargando petición...</p>
+  </div>
+} @else if (petition()) {
+  <main class="container mt-5">
+    <div class="row">
+      <div class="col-12 col-lg-8">
+        <h1 class="fw-bold fs-1 text-center text-lg-start">{{ petition()!.title }}</h1>
+
+        <div class="mt-4 mb-5">
+          @if ((petition()!.files?.length ?? 0) > 1) {
+            <div id="petitionCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                @for (file of petition()!.files!; track file.id; let i = $index) {
+                  <button type="button" data-bs-target="#petitionCarousel"
+                          [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                          [attr.aria-current]="i === 0 ? 'true' : null"></button>
+                }
+              </div>
+              <div class="carousel-inner rounded">
+                @for (file of petition()!.files!; track file.id; let i = $index) {
+                  <div class="carousel-item" [class.active]="i === 0">
+                    <img [src]="file.url" class="d-block w-100 img-fluid img-altura-max">
+                  </div>
+                }
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#petitionCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#petitionCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+          } @else if (petition()!.files && petition()!.files!.length === 1) {
+            <img [src]="petition()!.files![0].url" class="img-fluid rounded w-100 img-altura-max">
+          }
+        </div>
+
+        <div class="border-top pt-3">
+          <h2 class="mb-4 fs-2rem fw-bold">El problema</h2>
+          <p class="texto-peticion">{{ petition()!.description }}</p>
+          <hr>
+          <div class="d-flex align-items-center pt-3 mb-5">
+            <div class="bg-light-subtle rounded-circle d-flex justify-content-center align-items-center me-3"
+                 style="width: 50px; height: 50px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#808080" class="bi bi-person-fill" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              </svg>
+            </div>
+            <div class="d-flex flex-column">
+              <h6 class="mb-0 fw-bold">{{ petition()!.user!.name }}</h6>
+              <small class="text-muted">Creador de la petición</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="card shadow p-4 mb-5">
+          <div class="d-flex flex-column align-items-center">
+            <h4 class="fw-bold text-center fs-title">{{ petition()!.signers }}</h4>
+            <h5 class="text-muted fs-small">Firmas verificadas</h5>
+          </div>
+          <hr>
+          <dl class="row mb-0">
+            <dt class="col-sm-5 text-muted">Destinatario</dt>
+            <dd class="col-sm-7">{{ petition()!.destinatary }}</dd>
+            <dt class="col-sm-5 text-muted">Categoría</dt>
+            <dd class="col-sm-7">{{ petition()!.category?.name }}</dd>
+            <dt class="col-sm-5 text-muted">Estado</dt>
+            <dd class="col-sm-7">
+              @if (petition()!.status === 'accepted') {
+                <span class="badge bg-success">Aceptada</span>
+              } @else {
+                <span class="badge bg-warning text-dark">Pendiente</span>
+              }
+            </dd>
+          </dl>
+          <hr>
+          <a [routerLink]="['/admin/petitions/edit', petition()!.id]"
+             class="btn btn-primary w-100 fw-bold py-2 mb-2">
+            Editar petición
+          </a>
+          <a routerLink="/admin" class="btn btn-outline-secondary w-100 fw-bold py-2">
+            Volver al panel
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+}

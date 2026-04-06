@@ -20,4 +20,25 @@ export class CategoryService {
       })
     );
   }
+
+  fetchAdminCategories() {
+    return this.http.get<{ data: Category[] }>(`${this.API_URL}/admin/categories`).pipe(
+      map(res => res.data),
+      tap(data => {
+        this.#categories.set(data);
+      })
+    );
+  }
+
+  createAdminCategory(name: string) {
+    return this.http.post<{ data: Category }>(`${this.API_URL}/admin/categories`, { name });
+  }
+
+  updateAdminCategory(id: number, name: string) {
+    return this.http.put<{ data: Category }>(`${this.API_URL}/admin/categories/${id}`, { name });
+  }
+
+  deleteAdminCategory(id: number) {
+    return this.http.delete(`${this.API_URL}/admin/categories/${id}`);
+  }
 }

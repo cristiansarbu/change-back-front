@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminPetitionController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PetitionController;
@@ -39,4 +42,33 @@ Route::controller(PetitionController::class)->group(function () {
 
 Route::controller(CategoryController::class)->group(function () {
     Route::get('categories', 'index');
+});
+
+// RUTAS DE ADMINISTRADOR
+Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () {
+    // Peticiones
+    Route::controller(AdminPetitionController::class)->group(function () {
+        Route::get('petitions', 'index');
+        Route::get('petitions/{petition}', 'show');
+        Route::post('petitions', 'store');
+        Route::put('petitions/{petition}', 'update');
+        Route::put('petitions/status/{petition}', 'changeStatus');
+        Route::delete('petitions/{petition}', 'delete');
+    });
+
+    // Categorías
+    Route::controller(AdminCategoryController::class)->group(function () {
+        Route::get('categories', 'index');
+        Route::post('categories', 'store');
+        Route::put('categories/{category}', 'update');
+        Route::delete('categories/{category}', 'delete');
+    });
+
+    // Usuarios
+    Route::controller(AdminUserController::class)->group(function () {
+        Route::get('users', 'index');
+        Route::get('users/{user}', 'show');
+        Route::put('users/{user}', 'update');
+        Route::delete('users/{user}', 'delete');
+    });
 });

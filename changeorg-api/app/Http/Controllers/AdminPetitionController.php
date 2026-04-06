@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Petition;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -15,9 +16,9 @@ class AdminPetitionController extends Controller
     public function index()
     {
         try {
-            $petitions = Petition::with(['files', 'user'])->get();
+            $petitions = Petition::with(['files', 'user', 'category'])->get();
             return $this->sendResponse($petitions, 'Peticiones recuperadas con éxito.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->sendError('Error al recuperar peticiones', $e->getMessage(), 500);
         }
     }
@@ -68,7 +69,7 @@ class AdminPetitionController extends Controller
                     return $this->sendError('Error al crear la petición', [], 500);
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->sendError('Error al crear la petición', $exception->getMessage(), 500);
         }
     }
@@ -76,9 +77,9 @@ class AdminPetitionController extends Controller
     public function show($id)
     {
         try {
-            $petition = Petition::with(['files', 'user'])->findOrFail($id);
+            $petition = Petition::with(['files', 'user', 'category'])->findOrFail($id);
             return $this->sendResponse($petition, 'Petición encontrada');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->sendError('Petición no encontrada');
         }
     }
@@ -119,7 +120,7 @@ class AdminPetitionController extends Controller
             }
             $petition->load(['files', 'user']);
             return $this->sendResponse($petition, 'Petición actualizada con éxito');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->sendError('Error al actualizar', $e->getMessage(), 500);
         }
     }
@@ -136,7 +137,7 @@ class AdminPetitionController extends Controller
             $petition->signers()->detach();
             $petition->delete();
             return $this->sendResponse(null, 'Petición eliminada con éxito');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->sendError('Error al eliminar la petición', $e->getMessage(), 500);
         }
     }
@@ -150,7 +151,7 @@ class AdminPetitionController extends Controller
         }
         try {
             $petition->save();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->sendError('Error actualizando el estado de la petición', $exception->getMessage(), 500);
         }
         $petition->load(['files', 'user']);

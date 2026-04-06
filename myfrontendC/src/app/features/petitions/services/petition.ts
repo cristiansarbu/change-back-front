@@ -96,4 +96,32 @@ export class PetitionService {
     );
   }
 
+  // Admin
+  fetchAdminPetitions() {
+    return this.http.get<{ data: Petition[] }>(`${this.API_URL}/admin/petitions`);
+  }
+
+  deleteAdminPetition(id: number) {
+    return this.http.delete(`${this.API_URL}/admin/petitions/${id}`);
+  }
+
+  getAdminPetitionById(id: number) {
+    return this.http.get<{ data: Petition }>(`${this.API_URL}/admin/petitions/${id}`).pipe(
+      map(res => res.data)
+    );
+  }
+
+  createAdminPetition(formData: FormData) {
+    return this.http.post<{ data: Petition }>(`${this.API_URL}/admin/petitions`, formData);
+  }
+
+  updateAdminPetition(id: number, formData: FormData) {
+    formData.append('_method', 'PUT');
+    return this.http.post<{ data: Petition }>(`${this.API_URL}/admin/petitions/${id}`, formData);
+  }
+
+  changeAdminPetitionStatus(id: number) {
+    return this.http.put<{ data: Petition }>(`${this.API_URL}/admin/petitions/status/${id}`, {});
+  }
+
 }

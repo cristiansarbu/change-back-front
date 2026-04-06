@@ -1,3 +1,7 @@
-<app-navbar-component></app-navbar-component>
+@if (!isAdminRoute()) {
+  <app-navbar-component></app-navbar-component>
+}
 <router-outlet></router-outlet>
-<app-footer-component></app-footer-component>
+@if (!isAdminRoute()) {
+  <app-footer-component></app-footer-component>
+}

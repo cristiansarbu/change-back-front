@@ -1,0 +1,42 @@
+.table-action-btn {
+  min-width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -4px;
+}
+
+.table-action-btn svg {
+  width: 14px;
+  height: 14px;
+  margin: 0 -2px;
+  vertical-align: middle;
+}
+
+.table-action-btn {
+  transition: background-color 0.2s ease;
+}
+
+.table-action-btn.bg-secondary:hover {
+  background-color: #9fa6b2 !important;
+}
+
+.table-action-btn.bg-danger:hover {
+  background-color: #f97373 !important;
+}
+
+.btn-edit {
+  background-color: #9c27b0;
+}
+
+.btn-edit:hover {
+  background-color: #ce68e6 !important;
+}
+
+.modal {
+  z-index: 1060 !important;
+}
+
+.modal-backdrop {
+  z-index: 1050 !important;
+}

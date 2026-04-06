@@ -41,7 +41,11 @@ export class Login {
     this.auth.login({email: email!, password: password!})
       .subscribe({
         next: () => {
-          this.router.navigate(['/home']);
+          if (this.auth.isAdmin()) {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/home']);
+          }
         },
         error: (err: { status: number; }) => {
           console.error('LOGIN ERROR', err);

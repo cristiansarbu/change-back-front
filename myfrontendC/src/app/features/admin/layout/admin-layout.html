@@ -1,0 +1,72 @@
+<!-- Admin Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3 shadow-sm sticky-top admin-navbar">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold fs-3" routerLink="/home" style="color: #e4202c;">Change.org</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="adminNavbar">
+      <div class="d-flex align-items-center gap-4">
+        <a class="nav-link fw-semibold text-dark" routerLink="/petitions">Área del usuario</a>
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle fw-bold text-dark d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
+            Hola, {{ currentUser()?.name }}
+            <span class="badge bg-danger">Admin</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+            <li>
+              <button class="dropdown-item text-danger" (click)="logout()">
+                Cerrar Sesión
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="sidebar d-flex flex-column p-0 text-white">
+  <div class="p-3 text-center border-bottom border-light border-opacity-25 sidebar-title">
+    <span class="fs-4 fw-bold">Panel de Admin</span>
+  </div>
+
+  <div class="p-3 text-center mb-4">
+    <div class="d-flex flex-column align-items-center">
+      <div class="rounded-circle bg-white d-flex justify-content-center align-items-center mb-2" style="width: 70px; height: 70px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#e4202c" class="bi bi-person-circle" viewBox="0 0 16 16">
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+        </svg>
+      </div>
+      <span class="fw-semibold">Admin</span>
+    </div>
+  </div>
+
+  <div class="p-3 pt-0">
+    <p class="text-uppercase fw-bold opacity-75 mb-2 small">Menú Principal</p>
+    <ul class="list-group list-group-flush sidebar-menu">
+      <li class="list-group-item text-white py-2">
+        <a routerLink="/admin" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" class="text-white text-decoration-none">
+          Peticiones
+        </a>
+      </li>
+      <li class="list-group-item text-white py-2">
+        <a routerLink="/admin/categories" routerLinkActive="active-link" class="text-white text-decoration-none">
+          Categorías
+        </a>
+      </li>
+      <li class="list-group-item text-white py-2">
+        <a routerLink="/admin/users" routerLinkActive="active-link" class="text-white text-decoration-none">
+          Usuarios
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>

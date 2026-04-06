@@ -15,7 +15,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || auth()->user()->admin !== '1') {
+        if (!auth()->check() || !auth()->user()->admin) {
             return response()->json(['message' => 'Acceso denegado. Se requieren permisos de
             administrador.'], 403);
         }

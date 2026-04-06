@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+.fs-small {
+  font-size: 14px;
+}
+
+.fs-title {
+  font-size: 40px;
+}
+
+.texto-peticion {
+  line-height: 28px;
+  font-size: 16px;
+}
+
+.fs-2rem {
+  font-size: 2rem;
+}
+
+.img-altura-max {
+  max-height: 450px;
+  object-fit: cover;
+}
+
+@media (min-width: 992px) {
+  .text-lg-start {
+    text-align: start;
+  }
+}

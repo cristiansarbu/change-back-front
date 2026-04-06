@@ -13,7 +13,7 @@ export class AuthService {
   // Se inicializa comprobando si ya existe el token.
   isLoggedIn = signal<boolean>(!!localStorage.getItem('access_token'));
   user$ = this.userSubject.asObservable();
-  currentUser = signal<any>(null);
+  currentUser = signal<User | null>(JSON.parse(localStorage.getItem('user_data') || 'null'));
 
   constructor(private http: HttpClient) {
   }
@@ -52,6 +52,10 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getAccessToken();
+  }
+
+  isAdmin(): boolean {
+    return this.currentUser()?.admin ? true : false;
   }
 
   private storeTokens(res: LoginResponse) {
